@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WhiskeyViewController: ViewController {
+class WhiskeyViewController: WineViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +37,12 @@ class WhiskeyViewController: ViewController {
     let beerText = Int(numberOfBeers) == 1 ? NSLocalizedString("beer", comment: "singular beer") :
       NSLocalizedString("beers", comment: "plural of beer")
     
-    let whiskeyText = Int(numberOfWhiskeyGlassesForEquivalentAlcoholAmount) == 1 ? NSLocalizedString("shot", comment: "singular shot") : NSLocalizedString("shots", comment: "plural of shot")
+    let whiskeyText = Int(numberOfWhiskeyGlassesForEquivalentAlcoholAmount) == 1 ? NSLocalizedString("shot", comment: "singular shot") :
+                                                                                   NSLocalizedString("shots", comment: "plural of shot")
+    let numShotsString = String(format: "%.2f", numberOfWhiskeyGlassesForEquivalentAlcoholAmount)
     
-    let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!) alcohol) contains " +
-      "as much alcohol as \(numberOfWhiskeyGlassesForEquivalentAlcoholAmount) \(whiskeyText) of whiskey."
+    let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!)% alcohol) contains " +
+      "as much alcohol as \(numShotsString) \(whiskeyText) of whiskey."
     
     self.resultLabel.text = resultString
   }

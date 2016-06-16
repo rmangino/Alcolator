@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WineViewController.swift
 //  Alcolator
 //
 //  Created by Reed on 6/14/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class WineViewController: UIViewController {
 
   // MARK: Properties
   
@@ -70,16 +70,18 @@ class ViewController: UIViewController {
     let beerText = Int(numberOfBeers) == 1 ? NSLocalizedString("beer", comment: "singular beer") :
                                              NSLocalizedString("beers", comment: "plural of beer")
     
-    let wineText = Int(numberOfWineGlassesForEquivalentAlcoholAmount) == 1 ? NSLocalizedString("glass", comment: "singular glass") : NSLocalizedString("glasses", comment: "plural of glass")
+    let wineText = Int(numberOfWineGlassesForEquivalentAlcoholAmount) == 1 ? NSLocalizedString("glass", comment: "singular glass") :
+                                                                             NSLocalizedString("glasses", comment: "plural of glass")
     
-//    @"%d %@ (with %.2f%% alcohol) contains as much alcohol as %.1f %@ of wine.", nil), numberOfBeers, beerText,  [self.beerPercentTextField.text floatValue], numberOfWineGlassesForEquivalentAlcoholAmount, wineText
+    let numGlassesString = String(format: "%.2f", numberOfWineGlassesForEquivalentAlcoholAmount)
     
-    let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!) alcohol) contains " +
-                       "as much alcohol as \(numberOfWineGlassesForEquivalentAlcoholAmount) \(wineText) of wine."
+    let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!)% alcohol) contains " +
+                       "as much alcohol as \(numGlassesString) \(wineText) of wine."
     self.resultLabel.text = resultString
   }
   
   @IBAction func tapGestureDidFire(sender: UITapGestureRecognizer) {
+    self.beerPercentTextField.resignFirstResponder()
   }
 
 }
