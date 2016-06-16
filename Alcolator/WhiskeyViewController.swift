@@ -16,7 +16,7 @@ class WhiskeyViewController: WineViewController {
         // Do any additional setup after loading the view.
     }
 
-  @IBAction override func calculateButtonPressed(sender: UIButton) {
+  @IBAction override func calculateButtonPressed(_ sender: UIButton) {
     self.beerPercentTextField.resignFirstResponder()
     
     let numberOfBeers = self.beerCountSlider.value

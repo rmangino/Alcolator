@@ -25,7 +25,7 @@ class WineViewController: UIViewController {
 
   // MARK: Actions
   
-  @IBAction func textFieldDidChange(sender: UITextField) {
+  @IBAction func textFieldDidChange(_ sender: UITextField) {
     var shouldClear = false
     
     // Disallow non-numerics and 0
@@ -44,12 +44,12 @@ class WineViewController: UIViewController {
     }
   }
   
-  @IBAction func sliderValueDidChange(sender: UISlider) {
+  @IBAction func sliderValueDidChange(_ sender: UISlider) {
     print("Slider value changed to \(sender.value)")
     self.beerPercentTextField.resignFirstResponder()
   }
   
-  @IBAction func calculateButtonPressed(sender: UIButton) {
+  @IBAction func calculateButtonPressed(_ sender: UIButton) {
     self.beerPercentTextField.resignFirstResponder()
     
     let numberOfBeers = self.beerCountSlider.value
@@ -80,7 +80,7 @@ class WineViewController: UIViewController {
     self.resultLabel.text = resultString
   }
   
-  @IBAction func tapGestureDidFire(sender: UITapGestureRecognizer) {
+  @IBAction func tapGestureDidFire(_ sender: UITapGestureRecognizer) {
     self.beerPercentTextField.resignFirstResponder()
   }
 
