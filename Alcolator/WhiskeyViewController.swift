@@ -42,9 +42,7 @@ extension WhiskeyViewController {
     let numShots = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
                                                   ouncesOfOther: self.ouncesInShot,
                                                   alcoholPercentageOfOther: self.whiskeyAlcoholPercentage)
-    let numShotsString = String(format: "%.2f", numShots)
-
-    self.navigationItem.title = "Whiskey (\(numShotsString) shots)"
+    self.tabBarItem.badgeValue = String(format: "%.2f", numShots)
   }
 
   @IBAction override func calculateButtonPressed(_ sender: UIButton) {

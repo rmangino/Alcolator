@@ -80,18 +80,15 @@ extension WineViewController {
     // Bail early if there is no text in the alcohol textfield
     if self.beerPercentTextField.text == nil || (self.beerPercentTextField.text?.isEmpty)! {
       print("\(#function): nothing to calculate")
-      self.navigationItem.title = "Wine"
       return
     }
     
     let numberOfBeers = self.beerCountSlider.value
     
-    let numShots = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
+    let numGlasses = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
                                                   ouncesOfOther: self.ouncesInGlassOfWine,
                                                   alcoholPercentageOfOther: self.wineAlcoholPercentage)
-    let numShotsString = String(format: "%.2f", numShots)
-    
-    self.navigationItem.title = "Wine (\(numShotsString) glasses)"
+    self.tabBarItem.badgeValue = String(format: "%.2f", numGlasses)
   }
   
   @IBAction func calculateButtonPressed(_ sender: UIButton) {
