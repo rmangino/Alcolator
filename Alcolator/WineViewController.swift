@@ -12,18 +12,44 @@ class WineViewController: UIViewController {
 
   // MARK: Properties
   
+  private let ouncesInGlassOfWine: Float   = 5.0
+  private let wineAlcoholPercentage: Float = 0.13 // 13%
+  
   @IBOutlet weak var beerPercentTextField: UITextField!
   @IBOutlet weak var beerCountSlider: UISlider!
   @IBOutlet weak var resultLabel: UILabel!
+  @IBOutlet weak var calculateButton: UIButton!
   
   // MARK: UIViewController Overrides
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+  }
+  
+  // MARK: Helpers
+  
+  func calculateNumberOfUnitsFor(numberOfBeers: Float, ouncesOfOther: Float, alcoholPercentageOfOther: Float) -> Float {
+    let numberOfBeers = self.beerCountSlider.value
+    
+    // How much alcohol is in all beers?
+    let ouncesInOneBeerGlass: Float = 12.0
+    let alcoholPercentageOfBeer = Float(self.beerPercentTextField.text!)! / 100.0
+    let ouncesOfAlcoholPerBeer = ouncesInOneBeerGlass * alcoholPercentageOfBeer
+    let ouncesOfAlcoholTotal = ouncesOfAlcoholPerBeer * numberOfBeers
+    
+    // How much alcohol in that much wine?
+    let ouncesInOneWineGlass = ouncesOfOther
+    let ouncesOfAlcoholPerUnit = ouncesInOneWineGlass * alcoholPercentageOfOther;
+    let numberOfUnitsForEquivalentAlcoholAmount = ouncesOfAlcoholTotal / ouncesOfAlcoholPerUnit
+    
+    return numberOfUnitsForEquivalentAlcoholAmount
   }
 
-  // MARK: Actions
+}
+
+// MARK: Actions
+
+extension WineViewController {
   
   @IBAction func textFieldDidChange(_ sender: UITextField) {
     var shouldClear = false
@@ -40,13 +66,32 @@ class WineViewController: UIViewController {
     }
     
     if shouldClear {
-      sender.text = ""
+      sender.text = nil
+      self.calculateButton.isEnabled = false
+    }
+    else {
+      self.calculateButton.isEnabled = true
     }
   }
   
   @IBAction func sliderValueDidChange(_ sender: UISlider) {
-    print("Slider value changed to \(sender.value)")
     self.beerPercentTextField.resignFirstResponder()
+    
+    // Bail early if there is no text in the alcohol textfield
+    if self.beerPercentTextField.text == nil || (self.beerPercentTextField.text?.isEmpty)! {
+      print("\(#function): nothing to calculate")
+      self.navigationItem.title = "Wine"
+      return
+    }
+    
+    let numberOfBeers = self.beerCountSlider.value
+    
+    let numShots = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
+                                                  ouncesOfOther: self.ouncesInGlassOfWine,
+                                                  alcoholPercentageOfOther: self.wineAlcoholPercentage)
+    let numShotsString = String(format: "%.2f", numShots)
+    
+    self.navigationItem.title = "Wine (\(numShotsString) glasses)"
   }
   
   @IBAction func calculateButtonPressed(_ sender: UIButton) {
@@ -54,26 +99,18 @@ class WineViewController: UIViewController {
     
     let numberOfBeers = self.beerCountSlider.value
     
-    // How much alcohol is in all beers?
-    let ouncesInOneBeerGlass: Float = 12.0
-    let alcoholPercentageOfBeer = Float(self.beerPercentTextField.text!)! / 100.0
-    let ouncesOfAlcoholPerBeer = ouncesInOneBeerGlass * alcoholPercentageOfBeer
-    let ouncesOfAlcoholTotal = ouncesOfAlcoholPerBeer * numberOfBeers
-    
-    // How much alcohol in that much wine?
-    let ouncesInOneWineGlass: Float = 5.0
-    let alcoholPercentageOfWine: Float = 0.13 // 13%
-    let ouncesOfAlcoholPerWineGlass = ouncesInOneWineGlass * alcoholPercentageOfWine;
-    let numberOfWineGlassesForEquivalentAlcoholAmount = ouncesOfAlcoholTotal / ouncesOfAlcoholPerWineGlass
+    let numGlassesOfWine = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
+                                                          ouncesOfOther: self.ouncesInGlassOfWine,
+                                                          alcoholPercentageOfOther: self.wineAlcoholPercentage)
     
     // decide whether to use "beer"/"beers" and "glass"/"glasses"
     let beerText = Int(numberOfBeers) == 1 ? NSLocalizedString("beer", comment: "singular beer") :
                                              NSLocalizedString("beers", comment: "plural of beer")
     
-    let wineText = Int(numberOfWineGlassesForEquivalentAlcoholAmount) == 1 ? NSLocalizedString("glass", comment: "singular glass") :
-                                                                             NSLocalizedString("glasses", comment: "plural of glass")
+    let wineText = Int(numGlassesOfWine) == 1 ? NSLocalizedString("glass", comment: "singular glass") :
+                                                NSLocalizedString("glasses", comment: "plural of glass")
     
-    let numGlassesString = String(format: "%.2f", numberOfWineGlassesForEquivalentAlcoholAmount)
+    let numGlassesString = String(format: "%.2f", numGlassesOfWine)
     
     let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!)% alcohol) contains " +
                        "as much alcohol as \(numGlassesString) \(wineText) of wine."
