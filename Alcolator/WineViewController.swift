@@ -82,13 +82,6 @@ extension WineViewController {
       print("\(#function): nothing to calculate")
       return
     }
-    
-    let numberOfBeers = self.beerCountSlider.value
-    
-    let numGlasses = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
-                                                  ouncesOfOther: self.ouncesInGlassOfWine,
-                                                  alcoholPercentageOfOther: self.wineAlcoholPercentage)
-    self.tabBarItem.badgeValue = String(format: "%.2f", numGlasses)
   }
   
   @IBAction func calculateButtonPressed(_ sender: UIButton) {
@@ -112,6 +105,8 @@ extension WineViewController {
     let resultString = "\(numberOfBeers) \(beerText) (with \(self.beerPercentTextField.text!)% alcohol) contains " +
                        "as much alcohol as \(numGlassesString) \(wineText) of wine."
     self.resultLabel.text = resultString
+    
+    self.tabBarItem.badgeValue = String(Int(numGlassesOfWine))
   }
   
   @IBAction func tapGestureDidFire(_ sender: UITapGestureRecognizer) {

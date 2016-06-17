@@ -36,13 +36,6 @@ extension WhiskeyViewController {
       self.navigationItem.title = "Whiskey"
       return
     }
-    
-    let numberOfBeers = self.beerCountSlider.value
-
-    let numShots = self.calculateNumberOfUnitsFor(numberOfBeers: numberOfBeers,
-                                                  ouncesOfOther: self.ouncesInShot,
-                                                  alcoholPercentageOfOther: self.whiskeyAlcoholPercentage)
-    self.tabBarItem.badgeValue = String(format: "%.2f", numShots)
   }
 
   @IBAction override func calculateButtonPressed(_ sender: UIButton) {
@@ -67,6 +60,8 @@ extension WhiskeyViewController {
       "as much alcohol as \(numShotsString) \(whiskeyText) of whiskey."
     
     self.resultLabel.text = resultString
+    
+    self.tabBarItem.badgeValue = String(Int(numShotsOfWhiskey))
   }
 
 }
