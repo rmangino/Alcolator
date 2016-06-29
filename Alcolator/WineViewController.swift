@@ -106,7 +106,7 @@ extension WineViewController {
                        "as much alcohol as \(numGlassesString) \(wineText) of wine."
     self.resultLabel.text = resultString
     
-    self.tabBarItem.badgeValue = String(Int(numGlassesOfWine))
+    self.tabBarItem.badgeValue = "\(numGlassesOfWine)"
   }
   
   @IBAction func tapGestureDidFire(_ sender: UITapGestureRecognizer) {

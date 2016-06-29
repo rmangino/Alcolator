@@ -61,7 +61,7 @@ extension WhiskeyViewController {
     
     self.resultLabel.text = resultString
     
-    self.tabBarItem.badgeValue = String(Int(numShotsOfWhiskey))
+    self.tabBarItem.badgeValue = "\(numShotsOfWhiskey)"
   }
 
 }
